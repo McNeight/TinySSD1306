@@ -3,7 +3,7 @@
 
 /* Display size in pixels */
 #define WIDTH 128
-#define HEIGHT 32
+#define HEIGHT 64
 
 /* MCU connections, SPI in regular SPI pins */
 #define DATA_COMMAND 9
@@ -16,7 +16,13 @@
 #define SET_DISPLAY_OFFSET 0xD3
 #define SET_START_LINE 0x40
 #define CHARGE_PUMP 0x8D
+
+//Horizontal addressing mode (A[1:0]=00b)
+//Vertical addressing mode: (A[1:0]=01b)
+//Page addressing mode (A[1:0]=10xb)
 #define MEMORY_MODE 0x20
+
+
 #define SEGMENT_RE_MAP 0xA1
 #define COM_SCAN_DIRECTION 0xC8
 #define SET_COM_PINS 0xDA
@@ -30,15 +36,18 @@
 #define SET_LOW_COLUMN 0x00
 #define SET_HIGH_COLUMN 0x10
 
+//Set GDDRAM Page Start Address 0xB0 - OxB7
+#define SET_PAGE_START 0xB0   
+
 #include "Arduino.h"
 
 //#include "lib_font_handler.h"
 
 /* Driver inherits functions from Font_Handler to be able to use fonts */
-class SSD1306_Display {
+class SSD1306_DisplayNB {
 	public:
 		/* Constructor, this also initializes the screen */
-		SSD1306_Display();
+		SSD1306_DisplayNB();
 
 		/* Clear the display buffer */
 		void clear_display();
@@ -60,6 +69,7 @@ class SSD1306_Display {
 
 		/* Print a char */
 		void printChar(char ch);
+		void printCharX2(char ch);
 
 		/* Set cursor position in pixels */
 		void setCursor(uint16_t x, uint16_t y);
